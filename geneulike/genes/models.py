@@ -5,6 +5,8 @@ from django.contrib.auth.models import  User, Group
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.apps import apps
+from django.contrib.postgres.fields import ArrayField
+
 
 class Gene(models.Model):
 
@@ -12,16 +14,13 @@ class Gene(models.Model):
     tax_id =  models.CharField(max_length=50, blank=True)
     symbol =  models.CharField(max_length=50, blank=True)
     synonyms =  models.TextField(blank=True)
-    description =  models.TextField(blank=True)
-    homolog_id =  models.CharField(max_length=50, blank=True)
+    discontinued_gene_ids = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     ensembl_id =  models.CharField(max_length=50, blank=True)
+    ensembl_rna = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    ensembl_protein = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    accession_rna = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    accession_protein = ArrayField(models.CharField(max_length=50, blank=True), default=list)
 
     def __str__(self):
         return self.gene_id
 
-class Pathway(models.Model):
-
-    name = models.CharField(max_length=200)
-    pathway_id = models.CharField(max_length=50)
-    organism =  models.CharField(max_length=50)
-    genes = models.ManyToManyField(Gene, related_name="pathways")
