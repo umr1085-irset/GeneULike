@@ -85,9 +85,11 @@ LOCAL_APPS = [
     "geneulike.users.apps.UsersAppConfig",
     "geneulike.ontologies.apps.OntologiesAppConfig",
     "geneulike.jobs.apps.JobsAppConfig",
-    "geneulike.signatures.apps.SignaturesAppConfig",
     "geneulike.genes.apps.GenesAppConfig",
     "geneulike.groups.apps.GroupsAppConfig",
+    "geneulike.studies.apps.StudiesAppConfig",
+    "geneulike.series.apps.SeriesAppConfig",
+    "geneulike.genelists.apps.GeneListAppConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 from crispy_forms.bootstrap import FormActions
-from toxsign.ontologies.models import *
+from .models import *
 
 class BiologicalForm(forms.Form):
 

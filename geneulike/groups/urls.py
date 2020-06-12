@@ -1,5 +1,5 @@
 from django.urls import path
-from toxsign.groups import views
+from . import views
 
 app_name = "groups"
 urlpatterns = [

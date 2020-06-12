@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class UsersAppConfig(AppConfig):
 
-    name = "toxsign.users"
+    name = "geneulike.users"
     verbose_name = "Users"
 
     def ready(self):

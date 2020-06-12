@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 
-from toxsign.ontologies.models import Biological, Cell, CellLine, Chemical, Disease, Experiment, Species, Tissue
+from .models import Biological, Cell, CellLine, Chemical, Disease, Experiment, Species, Tissue
 
 class OntoAdmin(admin.ModelAdmin):
     fieldsets = [

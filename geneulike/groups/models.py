@@ -3,7 +3,7 @@ from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from toxsign.users.models import User
+from geneulike.users.models import User
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver

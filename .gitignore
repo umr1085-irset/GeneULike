@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.envs/.production/.django_prod
+.envs/.production/.postgres_prod

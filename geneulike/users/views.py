@@ -8,11 +8,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.shortcuts import redirect
 
-from toxsign.superprojects.models import Superproject
-from toxsign.projects.models import Project
-from toxsign.projects.views import get_access_type, check_view_permissions
-from toxsign.users.models import Notification
-from config.views import paginate
+from geneulike.users.models import Notification
 
 
 User = get_user_model()
@@ -27,46 +23,14 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         groups = self.request.user.groups.all()
-        superprojects = Superproject.objects.filter(created_by=self.request.user)
-
-        try:
-
-            if request.user.is_superuser:
-                q = Q_es()
-            else:
-                groups = [group.id for group in request.user.groups.all()]
-                q = Q_es("match", created_by__username=request.user.username)  | Q_es('nested', path="read_groups", query=Q_es("terms", read_groups__id=groups))
-
-            projects =  paginate(ProjectDocument.search().query(q), self.request.GET.get('projects'), 5, True)
-
-        except:
-            projects = paginate([project for project in Project.objects.all() if check_view_permissions(self.request.user, project, True)], self.request.GET.get('projects'), 5)
-
-        context['groups'] = paginate(groups, self.request.GET.get('groups'), 5)
-        context['superprojects'] = paginate(superprojects, self.request.GET.get('superprojects'), 5)
-        context['notifications'] = paginate(Notification.objects.filter(user=self.request.user), self.request.GET.get('notifications'), 5)
-        context['projects'] = projects
 
         for group in context['groups']:
             group.members_number = group.user_set.count()
-        for project in context['projects']:
-            project.permissions = get_access_type(self.request.user, project)
 
         context['in_use'] = {
             'user': "",
-            'superproject': "",
-            'project': "",
             'notification': ""
         }
-
-        if self.request.GET.get('projects'):
-            context['in_use']['project'] = 'active'
-        elif self.request.GET.get('notification'):
-            context['in_use']['notification'] = 'active'
-        elif self.request.GET.get('superproject'):
-            context['in_use']['superproject'] = 'active'
-        else:
-            context['in_use']['user'] = 'active'
 
         return context
 

@@ -20,17 +20,15 @@ urlpatterns = [
     path(
         "help/", TemplateView.as_view(template_name="pages/help.html"), name="help"
     ),
-    path("unauthorized", views.render_403, name="unauthorized"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("groups/", include("toxsign.groups.urls", namespace="groups")),
-    path("users/", include("toxsign.users.urls", namespace="users")),
-    path("signatures/", include("toxsign.signatures.urls", namespace="signatures")),
-    path("jobs/", include("toxsign.jobs.urls", namespace="jobs")),
-    path("genes", include("toxsign.genes.urls", namespace="genes")),
+    path("groups/", include("geneulike.groups.urls", namespace="groups")),
+    path("users/", include("geneulike.users.urls", namespace="users")),
+    path("jobs/", include("geneulike.jobs.urls", namespace="jobs")),
+    path("genes", include("geneulike.genes.urls", namespace="genes")),
     path("accounts/", include("allauth.urls")),
-    path("ontologies/", include("toxsign.ontologies.urls", namespace="ontologies")),
+    path("ontologies/", include("geneulike.ontologies.urls", namespace="ontologies")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

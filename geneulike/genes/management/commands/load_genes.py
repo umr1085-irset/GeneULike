@@ -20,9 +20,10 @@ def download_datafiles():
     dirpath = '/app/loading_data/genes/'
     urls = [
         "ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz",
-        "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2refseq.gz",
+        "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2accession.gz",
         "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_history.gz"
         "ftp://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz",
+        "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz"
     ]
     for url in urls :
         if not check_file(dirpath, url):
@@ -55,8 +56,9 @@ def concat_files(dirpath, species_list):
 
     gene2ensembl = os.path.join(dirpath,'gene2ensembl')
     gene_info = os.path.join(dirpath,'gene_info')
-    gene2refseq = os.path.join(dirpath,'gene2refseq')
+    gene2accession = os.path.join(dirpath,'gene2accession')
     gene_history = os.path.join(dirpath,'gene_history')
+    id_mapping = os.path.join(dirpath,'idmapping_selected.tab')
 
     dData_organized = {}
     # Init dico with gene_info file
@@ -70,12 +72,17 @@ def concat_files(dirpath, species_list):
                 tax_id = line_split[0]
                 GeneID = line_split[1]
                 symbol = line_split[2]
+                locus = line_split[3]
                 synonyms = line_split[4]
                 if tax_id in species_list :
-                    if GeneID not in dData_organized :
-                        dData_organized[GeneID] = {'tax_id':tax_id,'symbol':symbol,'synonyms':synonyms, "gene_id": GeneID,
+                    if GeneID not in dData_organized:
+                        dData_organized[GeneID] = {'tax_id':tax_id,'symbol':symbol, "gene_id": GeneID,
                             'discontinued_gene_ids': [], 'ensembl_rna': [], 'ensembl_protein': [], 'accession_rna': [], 'accession_protein':[]
                         }
+                        if not locus == "-":
+                            dData_organized[GeneID]["locus_tag"] = locus
+                        if not synonyms == "-":
+                            dData_organized[GeneID]["synonyms"] = synonyms
         fGene_info.close()
     except Exception as e:
         print("args: ", e.args)
@@ -96,9 +103,9 @@ def concat_files(dirpath, species_list):
                 if GeneID in dData_organized :
                     dData_organized[GeneID]['ensembl_id'] = ensemblID
                     if not ensembl_rna == "-":
-                        dData_organized[GeneID]['ensembl_rna'].append(ensembl_rna)
+                        dData_organized[GeneID]['ensembl_transcript'].append(ensembl_rna)
                         if not [ensembl_rna] == ensembl_rna.split("."):
-                            dData_organized[GeneID]['ensembl_rna'].append(ensembl_rna.split(".")[0])
+                            dData_organized[GeneID]['ensembl_transcript'].append(ensembl_rna.split(".")[0])
                     if not ensembl_protein == "-":
                         dData_organized[GeneID]['ensembl_protein'].append(ensembl_protein)
                         if not [ensembl_protein] == ensembl_protein.split("."):
@@ -110,10 +117,10 @@ def concat_files(dirpath, species_list):
         print("filename: ", e.filename)
         print("strerror: ", e.strerror)
 
-    print("INDEX gene2refseq")
+    print("INDEX gene2accession")
     try :
-        fgene2refseq = open(gene2refseq,'r')
-        for line in fgene2refseq.readlines():
+        fgene2accession = open(gene2accession,'r')
+        for line in fgene2accession.readlines():
             if line[0] != '#':
                 line_split = line.split('\t')
                 accession_rna = line_split[3]
@@ -121,14 +128,14 @@ def concat_files(dirpath, species_list):
                 if GeneID in dData_organized :
                     # Store both versioned and non-versioned id
                     if not accession_rna == "-":
-                        dData_organized[GeneID]['accession_rna'].append(accession_rna)
+                        dData_organized[GeneID]['accession_transcript'].append(accession_rna)
                         if not [accession_rna] == accession_rna.split("."):
-                            dData_organized[GeneID]['accession_rna'].append(accession_rna.split(".")[0])
+                            dData_organized[GeneID]['accession_transcript'].append(accession_rna.split(".")[0])
                     if not accession_protein == "-":
                         dData_organized[GeneID]['accession_protein'].append(accession_protein)
                         if not [accession_protein] == accession_protein.split("."):
                             dData_organized[GeneID]['accession_protein'].append(accession_protein.split(".")[0])
-        fgene2refseq.close()
+        fgene2accession.close()
     except IOError as e:
         print("args: ", e.args)
         print("errno: ", e.errno)
@@ -151,6 +158,26 @@ def concat_files(dirpath, species_list):
         print("errno: ", e.errno)
         print("filename: ", e.filename)
         print("strerror: ", e.strerror)
+
+    print("INDEX Uniprot")
+    try :
+        file = open(id_mapping,'r')
+        for line in file.readlines():
+            if line[0] != '#':
+                line_split = line.split('\t')
+                accession = line_split[0]
+                uni_id = line_split[1]
+                GeneID = line_split[2]
+                if GeneID in dData_organized :
+                    dData_organized[GeneID]['uniprot_accession'] = accession
+                    dData_organized[GeneID]['uniprot_id'] = uni_id
+        file.close()
+    except IOError as e:
+        print("args: ", e.args)
+        print("errno: ", e.errno)
+        print("filename: ", e.filename)
+        print("strerror: ", e.strerror)
+
 
     return dData_organized
 

@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class GroupsAppConfig(AppConfig):
 
-    name = "toxsign.groups"
+    name = "geneulike.groups"
     verbose_name = "Groups"
 
     def ready(self):

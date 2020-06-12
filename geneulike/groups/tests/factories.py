@@ -1,7 +1,7 @@
 from typing import Any, Sequence
 
 from factory import DjangoModelFactory, Faker, post_generation
-from toxsign.groups.models import Group
+from geneulike.groups.models import Group
 
 class GroupFactory(DjangoModelFactory):
 

@@ -3,6 +3,6 @@ from django.apps import AppConfig
 
 class GenesAppConfig(AppConfig):
 
-    name = "toxsign.genes"
+    name = "geneulike.genes"
     verbose_name = "Genes"
 

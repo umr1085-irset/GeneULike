@@ -23,8 +23,8 @@ if __name__ == "__main__":
         raise
 
     # This allows easy placement of apps within the interior
-    # toxsign directory.
+    # geneulike directory.
     current_path = os.path.dirname(os.path.abspath(__file__))
-    sys.path.append(os.path.join(current_path, "toxsign"))
+    sys.path.append(os.path.join(current_path, "geneulike"))
 
     execute_from_command_line(sys.argv)

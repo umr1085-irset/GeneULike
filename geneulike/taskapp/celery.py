@@ -15,7 +15,7 @@ if not settings.configured:
     )  # pragma: no cover
 
 
-app = Celery("toxsign")
+app = Celery("geneulike")
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 # - namespace='CELERY' means all celery-related configuration keys
@@ -24,7 +24,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 
 class CeleryAppConfig(AppConfig):
-    name = "toxsign.taskapp"
+    name = "geneulike.taskapp"
     verbose_name = "Celery Config"
 
     def ready(self):
@@ -50,7 +50,7 @@ def cron_cleanup(sender, **kwargs):
 
 @app.task
 def cleanup_jobs():
-    from toxsign.jobs.models import Job
+    from geneulike.jobs.models import Job
     # Clean anonymous jobs older than 7 days
     Job.objects.filter(updated_at__lte= now()-timedelta(days=7), created_by=None).delete()
     # Clean pending jobs?
@@ -58,6 +58,6 @@ def cleanup_jobs():
 
 @app.task
 def cleanup_failed_jobs():
-    from toxsign.jobs.models import Job
+    from geneulike.jobs.models import Job
     # Clean anonymous failed job older than 1 day
     Job.objects.filter(updated_at__lte= now()-timedelta(days=1), created_by=None, status="FAILURE").delete()

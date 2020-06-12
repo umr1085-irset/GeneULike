@@ -19,7 +19,7 @@ services:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
     ports:
-      - "8000:8000"
+      - "6543:8000"
     command: /start
 
   postgres:
@@ -29,7 +29,6 @@ services:
     image: geneulike_production_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
-      - ./backups:/backups
     
     env_file:
       - ./.envs/.local/.postgres

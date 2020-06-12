@@ -8,9 +8,8 @@ from django.views.generic import CreateView
 from django.contrib.auth.models import Group
 
 from django.db.models import Q
-from toxsign.groups.forms import GroupCreateForm, GroupInvitationForm
-from toxsign.users.models import User, Notification
-from toxsign.projects.models import Project
+from .forms import GroupCreateForm, GroupInvitationForm
+from geneulike.users.models import User, Notification
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -28,8 +27,6 @@ def DetailView(request, grpid):
         'group': group,
         'users': group.user_set.all(),
         'notifications': group.add_notifications.all(),
-        'read_access': get_objects_for_group(group, 'view_project', Project),
-        'edit_access': get_objects_for_group(group, 'change_project', Project)
     }
     return render(request, 'groups/group_detail.html', data)
 

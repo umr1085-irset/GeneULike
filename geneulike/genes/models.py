@@ -13,13 +13,16 @@ class Gene(models.Model):
     gene_id =  models.CharField(max_length=50)
     tax_id =  models.CharField(max_length=50, blank=True)
     symbol =  models.CharField(max_length=50, blank=True)
+    locus_tag = models.CharField(max_length=50, blank=True)
     synonyms =  models.TextField(blank=True)
     discontinued_gene_ids = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     ensembl_id =  models.CharField(max_length=50, blank=True)
-    ensembl_rna = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    ensembl_transcript = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     ensembl_protein = ArrayField(models.CharField(max_length=50, blank=True), default=list)
-    accession_rna = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    accession_transcript = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     accession_protein = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    uniprot_accession = models.CharField(max_length=50, blank=True)
+    uniprot_id = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.gene_id

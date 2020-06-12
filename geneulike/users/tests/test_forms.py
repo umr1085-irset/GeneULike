@@ -1,7 +1,7 @@
 import pytest
 
-from toxsign.users.forms import UserCreationForm
-from toxsign.users.tests.factories import UserFactory
+from geneulike.users.forms import UserCreationForm
+from geneulike.users.tests.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 

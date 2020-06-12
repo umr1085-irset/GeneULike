@@ -1,7 +1,7 @@
 import pytest
 
-from toxsign.ontologies.tests.factories import DiseaseFactory
-from toxsign.ontologies.models import Disease
+from geneulike.ontologies.tests.factories import DiseaseFactory
+from geneulike.ontologies.models import Disease
 
 pytestmark = pytest.mark.django_db
 

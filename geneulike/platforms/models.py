@@ -15,7 +15,6 @@ import shutil
 
 
 def get_upload_path(instance, filename):
-
     path =  os.path.join("platforms/{}/".format(instance.id), "conversion_file.csv")
     return path
 
@@ -32,7 +31,6 @@ class Platform(models.Model):
     type = models.CharField(max_length=100, choices=PLATFORM_TYPE, default="GEO")
     taxon = models.CharField(max_length=100, blank=True, null=True)
     ftp = models.CharField(max_length=200, blank=True, null=True)
-    has_file = models.BooleanField(default=False)
     conversion_file = models.FileField(upload_to=get_upload_path, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name='%(app_label)s_%(class)s_created_by')
 

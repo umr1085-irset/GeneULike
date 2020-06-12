@@ -19,15 +19,13 @@ from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
-from config.views import paginate
-
-from toxsign.jobs.models import Job
+from .models import Job
 from celery.result import AsyncResult
 
 from django.utils.timezone import now
 from datetime import timedelta
 from celery.schedules import crontab
-from toxsign.taskapp.celery import app
+from geneulike.taskapp.celery import app
 
 
 def DetailView(request, pk):
@@ -80,7 +78,6 @@ def _generate_job_table(request):
     else:
         jobs = Job.objects.filter(created_by=None)
     jobs = jobs.order_by('-id')
-    jobs = paginate(jobs, request.GET.get('jobs'), 10)
     need_refresh = False
     for job in jobs:
         if job.status == "PENDING":

@@ -1,5 +1,5 @@
 from factory import DjangoModelFactory, Faker, Sequence, SubFactory
-from toxsign.ontologies.models import *
+from geneulike.ontologies.models import *
 
 class OntologyFactory(DjangoModelFactory):
     # No setting up as_parent and as_ancestor. Can't get it working with factoryboy

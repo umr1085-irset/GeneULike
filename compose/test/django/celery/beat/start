@@ -5,4 +5,4 @@ set -o nounset
 
 
 rm -f './celerybeat.pid'
-celery -A toxsign.taskapp beat -l INFO
+celery -A geneulike.taskapp beat -l INFO

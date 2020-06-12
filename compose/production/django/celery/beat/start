@@ -4,4 +4,4 @@ set -o errexit
 set -o nounset
 
 
-celery -A toxsign.taskapp beat -l INFO
+celery -A geneulike.taskapp beat -l INFO

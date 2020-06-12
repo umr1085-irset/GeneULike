@@ -5,7 +5,7 @@ from crispy_forms.layout import Submit, Layout
 from crispy_forms.bootstrap import FormActions
 
 from django.contrib.auth.models import Group
-from toxsign.users.models import Notification
+from geneulike.users.models import Notification
 
 class GroupCreateForm(forms.ModelForm):
 

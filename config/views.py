@@ -13,9 +13,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, Page
 from django.conf import settings
 from django.shortcuts import redirect
 
-from toxsign.jobs.models import Job
-from toxsign.projects.views import check_view_permissions, check_edit_permissions
-
 from elasticsearch_dsl import Q as Q_es
 
 from django.template.loader import render_to_string
