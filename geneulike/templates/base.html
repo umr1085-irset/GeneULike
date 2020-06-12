@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}TOXsIgN{% endblock title %}</title>
+    <title>{% block title %}GenULike{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -54,13 +54,10 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">TOXsIgN</a>
+        <a class="navbar-brand" href="{% url 'home' %}">GeneULike</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'index' %}"><i class="fas fa-database"></i> Browse <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-info"></i> About
@@ -78,18 +75,17 @@
                 <i class="fas fa-tools"></i> Tools
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'tools:index' %}">Tools</a>
                 <a class="dropdown-item" href="{% url 'jobs:running_jobs' %}">Running jobs</a>
               </div>
             </li>
-            <form class="form-inline" action="{% url 'search' %}">
+            <form class="form-inline" action="">
               <div class="md-form my-0">
                 <input type='text' class="form-control mr-sm-2" name='q' placeholder="Enter Search Keyword" value='{{ request.GET.q }}' id='intry'>
                 <button type="submit" class="btn btn-outline-default btn-sm" style="border-radius: 30px;">Search</button>
               </div>
             </form>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'advanced_search' %}"><i class="fas fa-search"></i> Advanced search <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href=""><i class="fas fa-search"></i> Advanced search <span class="sr-only">(current)</span></a>
             </li>
             </ul>
             <ul class="navbar-nav">
@@ -134,7 +130,7 @@
     <div class="container-fluid" style="margin-bottom:50px;margin-top:50px;">
       {% if not request.COOKIES.citation_alert_box == "closed" %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert" style="margin-top:15px; text-align:center;">
-          The team behind TOXsIgN has invested considerable time, resources, and effort into collecting, curating, processing, developing, and maintaining this web resource.<br> Please follow the citation guidelines if you are using it.
+          The team behind GenULike has invested considerable time, resources, and effort into collecting, curating, processing, developing, and maintaining this web resource.<br> Please follow the citation guidelines if you are using it.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
