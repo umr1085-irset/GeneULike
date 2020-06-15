@@ -15,7 +15,7 @@ import subprocess
 import os
 import shutil
 
-class Study(models.Model):
+class Series(models.Model):
 
     title = models.CharField(max_length=200)
     tsx_id = models.CharField(max_length=200)
@@ -27,6 +27,7 @@ class Study(models.Model):
     pubmed_ids = models.TextField("pubmed_ids", blank=True,null=True)
     cross_link = models.TextField("cross_link", blank=True, null=True)
     study = models.ForeignKey(Study, blank=True, null=True, on_delete=models.CASCADE, related_name="series")
+    ancestor = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE, related_name="subseries_full")
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE, related_name="subseries")
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name='%(app_label)s_%(class)s_created_by')

@@ -21,7 +21,7 @@ def download_datafiles():
     urls = [
         "ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz",
         "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2accession.gz",
-        "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_history.gz"
+        "ftp://ftp.ncbi.nih.gov/gene/DATA/gene_history.gz",
         "ftp://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz",
         "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz"
     ]
@@ -66,7 +66,7 @@ def concat_files(dirpath, species_list):
     try :
         print(gene_info)
         fGene_info = open(gene_info,'r')
-        for gene_ligne in fGene_info.readlines():
+        for gene_ligne in fGene_info:
             if gene_ligne[0] != '#':
                 line_split = gene_ligne.split('\t')
                 tax_id = line_split[0]
@@ -77,7 +77,7 @@ def concat_files(dirpath, species_list):
                 if tax_id in species_list :
                     if GeneID not in dData_organized:
                         dData_organized[GeneID] = {'tax_id':tax_id,'symbol':symbol, "gene_id": GeneID,
-                            'discontinued_gene_ids': [], 'ensembl_rna': [], 'ensembl_protein': [], 'accession_rna': [], 'accession_protein':[]
+                            'discontinued_gene_ids': [], 'ensembl_transcript': [], 'ensembl_protein': [], 'accession_transcript': [], 'accession_protein':[]
                         }
                         if not locus == "-":
                             dData_organized[GeneID]["locus_tag"] = locus
@@ -93,7 +93,7 @@ def concat_files(dirpath, species_list):
     print("INDEX gene2ensembl")
     try :
         fgene2ensembl = open(gene2ensembl,'r')
-        for geneensemble_ligne in fgene2ensembl.readlines():
+        for geneensemble_ligne in fgene2ensembl:
             if geneensemble_ligne[0] != '#':
                 line_split = geneensemble_ligne.split('\t')
                 GeneID = line_split[1]
@@ -120,9 +120,10 @@ def concat_files(dirpath, species_list):
     print("INDEX gene2accession")
     try :
         fgene2accession = open(gene2accession,'r')
-        for line in fgene2accession.readlines():
+        for line in fgene2accession:
             if line[0] != '#':
                 line_split = line.split('\t')
+                GeneID = line_split[1]
                 accession_rna = line_split[3]
                 accession_protein = line_split[5]
                 if GeneID in dData_organized :
@@ -145,7 +146,7 @@ def concat_files(dirpath, species_list):
     print("INDEX gene_history")
     try :
         file = open(gene_history,'r')
-        for line in file.readlines():
+        for line in file:
             if line[0] != '#':
                 line_split = line.split('\t')
                 GeneID = line_split[1]
@@ -162,7 +163,7 @@ def concat_files(dirpath, species_list):
     print("INDEX Uniprot")
     try :
         file = open(id_mapping,'r')
-        for line in file.readlines():
+        for line in file:
             if line[0] != '#':
                 line_split = line.split('\t')
                 accession = line_split[0]
@@ -177,7 +178,6 @@ def concat_files(dirpath, species_list):
         print("errno: ", e.errno)
         print("filename: ", e.filename)
         print("strerror: ", e.strerror)
-
 
     return dData_organized
 

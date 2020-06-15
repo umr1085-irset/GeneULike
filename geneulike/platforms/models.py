@@ -13,9 +13,10 @@ import subprocess
 import os
 import shutil
 
+from geneulike.species.models import Species
 
 def get_upload_path(instance, filename):
-    path =  os.path.join("platforms/{}/".format(instance.id), "conversion_file.csv")
+    path =  os.path.join("platforms/{}/{}/".format(instance.taxon, instance.id), "conversion_file.csv")
     return path
 
 class Platform(models.Model):
@@ -29,7 +30,7 @@ class Platform(models.Model):
     geo_uid = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField("description", blank=True,null=True)
     type = models.CharField(max_length=100, choices=PLATFORM_TYPE, default="GEO")
-    taxon = models.CharField(max_length=100, blank=True, null=True)
+    taxon = models.ForeignKey(Species, on_delete=models.CASCADE, related_name='platforms')
     ftp = models.CharField(max_length=200, blank=True, null=True)
     conversion_file = models.FileField(upload_to=get_upload_path, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name='%(app_label)s_%(class)s_created_by')

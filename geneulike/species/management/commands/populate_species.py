@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from geneulike.studies.models import Species
-from sdap.users.models import User
+from geneulike.species.models import Species
+from geneulike.users.models import User
 from django.conf import settings
 
 def populate_species():
