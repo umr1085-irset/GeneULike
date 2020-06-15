@@ -28,6 +28,7 @@ class Platform(models.Model):
 
     title = models.CharField(max_length=200)
     geo_uid = models.CharField(max_length=50, blank=True, null=True)
+    geo_accession = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField("description", blank=True,null=True)
     type = models.CharField(max_length=100, choices=PLATFORM_TYPE, default="GEO")
     taxon = models.ForeignKey(Species, on_delete=models.CASCADE, related_name='platforms')
