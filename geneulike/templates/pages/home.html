@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Header -->
+    <header class="bg-default py-3">
+        <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-12">
+            <h1 class="display-4 text-white mt-2 mb-2">Welcome to GeneULike</h1>
+             <form class="form-inline my-6 my-lg-0" id="search" method="GET" action=''>
+                    <input type='text' class="form-control col-md-6" name='q' placeholder="Search" value='{{ request.GET.q }}' id='intry'>
+                    <button type="submit" class="btn btn-outline-light col-md-2">Search</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </header>
+
+
+    <!-- Page Content -->
+    <div class="container">
+        
+        <!-- Heading Row -->
+        <div class="row my-5">
+            <div class="col-md-8 mb-5">
+                <h2>What is GeneULIke</h2>
+                <hr>
+            </div>
+            <!-- /.col-md-8 -->
+            <div class="col-md-4 mb-5">
+                <h2>Tools and Access</h2>
+                <hr>
+            </div>
+            <!-- /.col-md-4 -->
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <script>
+         /*$(document).ready(function(){
+            $("#txtSearch").autocomplete({
+                source: "/ajax_calls/search/",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });
+        });*/
+    </script>
+    <!-- /.container -->
+{% endblock %}

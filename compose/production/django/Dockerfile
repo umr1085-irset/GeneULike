@@ -1,0 +1,52 @@
+FROM python:3.7.4-stretch
+
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "envs_dirs:" > /root/.condarc && \
+    echo "  - /app/tools/conda_envs" >> /root/.condarc
+
+RUN addgroup --system django \
+    && adduser --system --ingroup django django
+
+# Requirements are installed here to ensure they will be cached.
+COPY ./requirements /requirements
+RUN pip install --no-cache-dir -r /requirements/production.txt \
+    && rm -rf /requirements
+
+COPY ./compose/production/django/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+RUN chown django /entrypoint
+
+COPY ./compose/production/django/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+RUN chown django /start
+COPY ./compose/production/django/celery/worker/start /start-celeryworker
+RUN sed -i 's/\r$//g' /start-celeryworker
+RUN chmod +x /start-celeryworker
+RUN chown django /start-celeryworker
+
+COPY ./compose/production/django/celery/beat/start /start-celerybeat
+RUN sed -i 's/\r$//g' /start-celerybeat
+RUN chmod +x /start-celerybeat
+RUN chown django /start-celerybeat
+
+COPY ./compose/production/django/celery/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower
+RUN chmod +x /start-flower
+#COPY . /app
+
+RUN mkdir -p /app/staticfiles
+
+#RUN chown -R django /app
+
+#USER django
+
+WORKDIR /app
+
+ENTRYPOINT ["/entrypoint"]
