@@ -68,13 +68,13 @@ def _process_data(query_key, web_env, organism, max_data=500, current_count=0):
 
             try:
                 if file_path in ftp.nlst(annot_path):
-                    dict_data['ftp'] = ftp_base_url + file_path
+                    dict_data['ftp'] = file_path
             except (EOFError, ConnectionResetError):
                 ftp = FTP(ftp_base_url, timeout=180)
                 ftp.login()
                 try:
                     if file_path in ftp.nlst(annot_path):
-                        dict_data['ftp'] = ftp_base_url + file_path
+                        dict_data['ftp'] = file_path
                 except error_temp:
                     pass
             except error_temp:
