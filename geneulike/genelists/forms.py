@@ -2,7 +2,7 @@ from dal import autocomplete
 from django import forms
 from crispy_forms.helper import FormHelper
 from operator import itemgetter
-from crispy_forms.layout import Submit, Layout, Row, Column, HTML, Button, Fieldset
+from crispy_forms.layout import Submit, Layout, Row, Column, HTML, Button, Fieldset, Div
 from crispy_forms.bootstrap import FormActions, InlineField, StrictButton
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -34,8 +34,12 @@ class GeneListCreateForm(forms.ModelForm):
                     PLATFORM_FILE_CHOICES += ((platform.id, platform.geo_accession),)
 
 
-        self.fields['species'] = form.ChoiceField(choices=SPECIES_CHOICES, required=False)
-        self.fields['geo_file'] = form.ChoiceField(choices=PLATFORM_FILE_CHOICES, required=False)
+        self.fields['species'] = forms.ChoiceField(choices=SPECIES_CHOICES, required=False)
+        self.fields['geo_file'] = forms.ChoiceField(choices=PLATFORM_FILE_CHOICES, required=False)
+
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('save', 'Save'))
 
         self.helper.layout = Layout(
             Fieldset(
@@ -67,7 +71,3 @@ class GeneListCreateForm(forms.ModelForm):
                 )
             )
         )
-
-        self.helper = FormHelper(self)
-        self.helper.form_method = 'POST'
-        self.helper.add_input(Submit('save', 'Save'))
