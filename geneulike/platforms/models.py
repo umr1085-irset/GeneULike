@@ -21,17 +21,13 @@ def get_upload_path(instance, filename):
 
 class Platform(models.Model):
 
-    PLATFORM_TYPE = (
-        ('GEO', 'GEO based platform'),
-        ('CUSTOM', 'Platform with custom conversion file'),
-    )
-
     title = models.CharField(max_length=200)
     geo_uid = models.CharField(max_length=50, blank=True, null=True)
+    geo_accession = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField("description", blank=True,null=True)
-    type = models.CharField(max_length=100, choices=PLATFORM_TYPE, default="GEO")
     taxon = models.ForeignKey(Species, on_delete=models.CASCADE, related_name='platforms')
     ftp = models.CharField(max_length=200, blank=True, null=True)
+    download_id = models.CharField(max_length=50, blank=True, null=True)
     conversion_file = models.FileField(upload_to=get_upload_path, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name='%(app_label)s_%(class)s_created_by')
 

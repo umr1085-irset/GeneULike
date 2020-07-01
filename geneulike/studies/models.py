@@ -8,6 +8,8 @@ from django.conf import settings
 from guardian.shortcuts import assign_perm, remove_perm, get_group_perms, get_user_perms
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
+from django_better_admin_arrayfield.models.fields import ArrayField
+
 
 import subprocess
 import os
@@ -24,10 +26,11 @@ class Study(models.Model):
     tsx_id = models.CharField(max_length=200)
     summary = models.TextField("summary", blank=True, null=True)
     overall_design = models.TextField("overall_design", blank=True, null=True)
-    contributors = models.TextField("contributors", blank=True, null=True)
-    technologies = models.TextField("technologies", blank=True, null=True)
-    pubmed_id = models.TextField("pubmed_ids", blank=True, null=True)
-    cross_link = models.TextField("cross_link", blank=True, null=True)
+    contributors =  ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    technologies =  ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    pubmed_ids =  ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    species = ArrayField(models.CharField(max_length=50, blank=True), default=list)
+    cross_links = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name='%(app_label)s_%(class)s_created_by')
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=("user"))

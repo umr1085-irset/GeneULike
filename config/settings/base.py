@@ -92,6 +92,7 @@ LOCAL_APPS = [
     "geneulike.genelists.apps.GeneListAppConfig",
     "geneulike.species.apps.SpeciesAppConfig",
     "geneulike.platforms.apps.PlatformAppConfig",
+    "geneulike.scripts.apps.ScriptsAppConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
