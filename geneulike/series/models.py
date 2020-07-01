@@ -41,7 +41,7 @@ class Serie(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=("user"))
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def __init__(self, *args, **kwargs):
         super(Serie, self).__init__(*args, **kwargs)
