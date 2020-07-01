@@ -26,7 +26,12 @@ urlpatterns = [
     path("groups/", include("geneulike.groups.urls", namespace="groups")),
     path("users/", include("geneulike.users.urls", namespace="users")),
     path("jobs/", include("geneulike.jobs.urls", namespace="jobs")),
-    path("genes", include("geneulike.genes.urls", namespace="genes")),
+    path("genes/", include("geneulike.genes.urls", namespace="genes")),
+    path("studies/", include("geneulike.studies.urls", namespace="studies")),
+    path("series/", include("geneulike.series.urls", namespace="series")),
+    path("genelists/", include("geneulike.genelists.urls", namespace="genelists")),
+    path("species/", include("geneulike.species.urls", namespace="species")),
+    path("platforms/", include("geneulike.platforms.urls", namespace="platforms")),
     path("accounts/", include("allauth.urls")),
     path("ontologies/", include("geneulike.ontologies.urls", namespace="ontologies")),
     # Your stuff: custom urls includes go here

@@ -6,11 +6,14 @@ from django.db import models
 from django.contrib.auth.models import  User, Group
 from django.conf import settings
 from django_better_admin_arrayfield.models.fields import ArrayField
+
 from guardian.shortcuts import assign_perm, remove_perm, get_group_perms, get_user_perms
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
 from geneulike.studies.models import Study
+from geneulike.platforms.models import Platform
+
 
 import subprocess
 import os
@@ -25,6 +28,7 @@ class Serie(models.Model):
     # Not fond of using user ids for contributors
     contributors =  ArrayField(models.CharField(max_length=200, blank=True), default=list)
     technologies = ArrayField(models.CharField(max_length=200, blank=True), default=list)
+    platforms = models.ManyToManyField(Platform, blank=True, related_name="series")
     # Array field maybe? or comma separated?
     pubmed_ids =  ArrayField(models.CharField(max_length=30, blank=True), default=list)
     cross_links =  ArrayField(models.CharField(max_length=200, blank=True), default=list)
@@ -45,7 +49,7 @@ class Serie(models.Model):
 
     # Override save method to auto increment tsx_id and parent/ancestors
     def save(self, *args, **kwargs):
-        super(Project, self).save(*args, **kwargs)
+        super(Serie, self).save(*args, **kwargs)
         self.tsx_id = "GULSER" + str(self.id)
         if not self.ancestor:
             if self.parent:
@@ -53,9 +57,8 @@ class Serie(models.Model):
                     self.ancestor = self.parent.ancestor
                 else:
                     self.ancestor = self.parent
-        super(Project, self).save()
-        if not self.initial_species == self.species:
-            sync_species(self)
+        super(Serie, self).save()
+        sync_data(self)
 
 # TODO: Make async call 
 def sync_data(serie):
@@ -87,8 +90,8 @@ def sync_data(serie):
                 pubmed_ids |= set(subseries.pubmed_ids)
 
     study.species = list(species)
-    study.contributors = contributors
-    study.cross_links = cross_links
-    study.technologies = technologies
-    study.pubmed_ids = pubmed_ids
+    study.contributors = list(contributors)
+    study.cross_links = list(cross_links)
+    study.technologies = list(technologies)
+    study.pubmed_ids = list(pubmed_ids)
     study.save()
